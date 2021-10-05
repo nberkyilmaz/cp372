@@ -2,6 +2,7 @@
 import java.io.* ;
 import java.net.* ;
 import javax.swing.*;
+import java.awt.*;
 
 public final class server{
     public static void main(String argv[]) throws Exception {
@@ -12,6 +13,7 @@ public final class server{
         String colour[] = new String[argv.length - 3];
 
         //taking input from client/ error handle
+
         if (argv.length < 4){
             System.out.println("input not valid");
             System.out.println("Enter inputs in form: ");
@@ -31,6 +33,7 @@ public final class server{
 
         ServerSocket ss = new ServerSocket(port);
         Socket s = ss.accept();
+
         InetAddress ip;
         ip = InetAddress.getLocalHost();
 
@@ -58,9 +61,15 @@ public final class server{
         JPanel panel = new JPanel();
         JLabel label = new JLabel("Enter Text:");
         JTextField tf = new JTextField(20); // accepts upto 20 characters
-        JButton send = new JButton("GET");
-        JButton reset = new JButton("POST");
-
+        JButton get = new JButton("GET");
+        JButton post = new JButton("POST");
+        panel.add(label); // Components Added using Flow Layout
+        panel.add(tf);
+        panel.add(get);
+        panel.add(post);
+        JTextArea ta = new JTextArea();
+        frame.getContentPane().add(BorderLayout.CENTER, ta);
+        frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.setVisible(true);
         
     }    
