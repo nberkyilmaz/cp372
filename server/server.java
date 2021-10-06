@@ -118,8 +118,14 @@ public final class server{
                 String msg = "";
                 for(int i = 5; i<=cmd.length; i++){
                     msg = msg + cmd[i] + " ";
-
                 }
+                JLabel message = new JLabel(msg);
+                JTextField postit = new JTextField();
+                postit.setSize(w,h);
+                postit.setLocation(x, y);
+                message.setLabelFor(postit);
+                //postit.setBackground(Color);
+
             }
         });
     }    
