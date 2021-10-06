@@ -94,10 +94,10 @@ public final class server{
         panel2.add(showip);
 
         //for user input
-        JTextArea ta = new JTextArea();
+        //JTextArea ta = new JTextArea();
 
         //positioning panels
-        frame.getContentPane().add(BorderLayout.CENTER, ta);
+        //frame.getContentPane().add(BorderLayout.CENTER, ta);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.getContentPane().add(BorderLayout.NORTH, panel2);
         frame.getContentPane().add(BorderLayout.WEST, panel3);
@@ -111,21 +111,53 @@ public final class server{
                 String command = tf.getText();
                 String cmd[] = command.split(" ");
                 int x = Integer.parseInt(cmd[0]);
+                System.out.println(x);
                 int y = Integer.parseInt(cmd[1]);
+                System.out.println(y);
                 int w = Integer.parseInt(cmd[2]);
+                System.out.println(w);
                 int h = Integer.parseInt(cmd[3]);
+                System.out.println(h);
                 String col = cmd[4];
+                System.out.println(col);
                 String msg = "";
-                for(int i = 5; i<=cmd.length; i++){
+                for(int i = 5; i<=cmd.length-1; i++){
                     msg = msg + cmd[i] + " ";
                 }
-                JLabel message = new JLabel(msg);
+                System.out.println(msg);
+                //JLabel message = new JLabel(msg);
                 JTextField postit = new JTextField();
+                System.out.println("size: "+ postit.getSize());
                 postit.setSize(w,h);
+                System.out.println("size: "+ postit.getSize());
                 postit.setLocation(x, y);
-                message.setLabelFor(postit);
-                //postit.setBackground(Color);
-
+                postit.setText(msg);
+                
+                if (col.toLowerCase() == "black"){
+                    postit.setBackground(Color.black);
+                }else if (col.toLowerCase() == "blue"){
+                    postit.setBackground(Color.blue);
+                }else if (col.toLowerCase() == "cyan"){
+                    postit.setBackground(Color.cyan);
+                }else if (col.toLowerCase() == "gray"){
+                    postit.setBackground(Color.gray);
+                }else if (col.toLowerCase() ==  "green"){
+                    postit.setBackground(Color.green);
+                }else if (col.toLowerCase() == "magenta"){
+                    postit.setBackground(Color.magenta);
+                }else if (col.toLowerCase() == "orange"){
+                    postit.setBackground(Color.orange);
+                }else if (col.toLowerCase() == "pink"){
+                    postit.setBackground(Color.pink);
+                }else if (col.toLowerCase() == "red"){
+                    postit.setBackground(Color.red);
+                }else if (col.toLowerCase() == "white"){
+                    postit.setBackground(Color.white);
+                }else if (col.toLowerCase() == "yellow"){
+                    postit.setBackground(Color.yellow);
+                }
+                frame.add(BorderLayout.CENTER, postit);
+                //postit.setVisible(true);
             }
         });
     }    
