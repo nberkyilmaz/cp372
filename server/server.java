@@ -3,7 +3,8 @@ import java.io.* ;
 import java.net.* ;
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.*;
+import java.awt.color.*;
 public final class server{
     public static void main(String argv[]) throws Exception {
         //initializing values
@@ -45,32 +46,71 @@ public final class server{
         System.out.println("B_height: " + b_height);
         System.out.println("ip: " + ip);
         System.out.println("Colour(s): ");
+        String show_colour = "";
         for (int i = 0; i<=argv.length-4; i++){
             System.out.print(colour[i] + ", ");
+            show_colour = show_colour + colour[i] + ", ";
         } 
 
         //GUI
+        //frame
         JFrame frame = new JFrame("BBoard");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(b_width,b_height);
 
-        //JButton button1 = new JButton("POST");
-        //JButton button2 = new JButton("GET");
-        //frame.getContentPane().add(button1);
-        //frame.getContentPane().add(button2);
+        // creating panels
         JPanel panel = new JPanel();
+        JPanel panel2 = new JPanel();
+        JPanel panel3 = new JPanel();
+
+        //labels and text fields
         JLabel label = new JLabel("Enter Text:");
+        JLabel dimlabel = new JLabel("width: " + b_width + " height: " + b_height);
+        JLabel colourlabel = new JLabel("colour(s): " + show_colour);
+        JTextField showip = new JTextField("ip: "+ ip + "port number: "+ port);
+
         JTextField tf = new JTextField(20); // accepts upto 20 characters
+
+        //buttons
         JButton get = new JButton("GET");
         JButton post = new JButton("POST");
-        panel.add(label); // Components Added using Flow Layout
+        JButton disconnect = new JButton("Disconnect");
+        JButton pin = new JButton("PIN");
+        JButton shake = new JButton("SHAKE");
+        JButton clear = new JButton("CLEAR");
+        JButton unpin = new JButton("UNPIN");
+        //adding buttons to panels
+        panel.add(label); 
         panel.add(tf);
         panel.add(get);
         panel.add(post);
+        panel3.add(disconnect);
+        panel3.add(pin);
+        panel3.add(unpin);
+        panel3.add(shake);
+        panel3.add(clear);
+        panel2.add(dimlabel);
+        panel2.add(colourlabel);
+        panel2.add(showip);
+
+        //for user input
         JTextArea ta = new JTextArea();
+
+        //positioning panels
         frame.getContentPane().add(BorderLayout.CENTER, ta);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
+        frame.getContentPane().add(BorderLayout.NORTH, panel2);
+        frame.getContentPane().add(BorderLayout.WEST, panel3);
         frame.setVisible(true);
         
+        //adding action to post button
+        post.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String command = tf.getText();
+                command.split(" ");
+            }
+        });
     }    
 }
