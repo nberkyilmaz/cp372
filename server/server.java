@@ -109,7 +109,17 @@ public final class server{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = tf.getText();
-                command.split(" ");
+                String cmd[] = command.split(" ");
+                int x = Integer.parseInt(cmd[0]);
+                int y = Integer.parseInt(cmd[1]);
+                int w = Integer.parseInt(cmd[2]);
+                int h = Integer.parseInt(cmd[3]);
+                String col = cmd[4];
+                String msg = "";
+                for(int i = 5; i<=cmd.length; i++){
+                    msg = msg + cmd[i] + " ";
+
+                }
             }
         });
     }    
