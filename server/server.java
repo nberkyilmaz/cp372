@@ -2,6 +2,9 @@
 import java.io.* ;
 import java.net.* ;
 import javax.swing.*;
+
+import jdk.internal.net.http.ResponseBodyHandlers.FileDownloadBodyHandler;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.color.*;
@@ -60,8 +63,10 @@ public final class server{
 
         // creating panels
         JPanel panel = new JPanel();
-        JPanel panel2 = new JPanel();
+        //JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
+        JPanel board = new JPanel();
+        board.setLayout(null);
 
         //labels and text fields
         JLabel label = new JLabel("Enter Text:");
@@ -89,19 +94,19 @@ public final class server{
         panel3.add(unpin);
         panel3.add(shake);
         panel3.add(clear);
-        panel2.add(dimlabel);
-        panel2.add(colourlabel);
-        panel2.add(showip);
-
+        panel3.add(dimlabel);
+        panel3.add(colourlabel);
+        panel3.add(showip);
         //for user input
         //JTextArea ta = new JTextArea();
 
         //positioning panels
         //frame.getContentPane().add(BorderLayout.CENTER, ta);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
-        frame.getContentPane().add(BorderLayout.NORTH, panel2);
-        frame.getContentPane().add(BorderLayout.WEST, panel3);
-        frame.setVisible(true);
+        //frame.getContentPane().add(BorderLayout.NORTH, panel2);
+        frame.getContentPane().add(BorderLayout.NORTH, panel3);
+        frame.getContentPane().add(BorderLayout.CENTER, board);
+        
         
         //adding action to post button
         post.addActionListener(new ActionListener() {
@@ -110,6 +115,7 @@ public final class server{
             public void actionPerformed(ActionEvent e) {
                 String command = tf.getText();
                 String cmd[] = command.split(" ");
+                System.out.println(cmd[0]);
                 int x = Integer.parseInt(cmd[0]);
                 System.out.println(x);
                 int y = Integer.parseInt(cmd[1]);
@@ -125,40 +131,42 @@ public final class server{
                     msg = msg + cmd[i] + " ";
                 }
                 System.out.println(msg);
-                //JLabel message = new JLabel(msg);
-                JTextField postit = new JTextField();
+                JTextArea postit = new JTextArea();
                 System.out.println("size: "+ postit.getSize());
-                postit.setSize(w,h);
                 System.out.println("size: "+ postit.getSize());
-                postit.setLocation(x, y);
+
                 postit.setText(msg);
-                
-                if (col.toLowerCase() == "black"){
+                postit.setBounds(x,y,w,h);
+                System.out.println("7"+col+"7");
+                System.out.println(col.toLowerCase().equals("red"));
+                if (col.toLowerCase().equals("black")){
                     postit.setBackground(Color.black);
-                }else if (col.toLowerCase() == "blue"){
+                }else if (col.toLowerCase().equals("blue")){
                     postit.setBackground(Color.blue);
-                }else if (col.toLowerCase() == "cyan"){
+                }else if (col.toLowerCase().equals("cyan")){
                     postit.setBackground(Color.cyan);
-                }else if (col.toLowerCase() == "gray"){
+                }else if (col.toLowerCase().equals("gray")){
                     postit.setBackground(Color.gray);
-                }else if (col.toLowerCase() ==  "green"){
+                }else if (col.toLowerCase().equals("green")){
                     postit.setBackground(Color.green);
-                }else if (col.toLowerCase() == "magenta"){
+                }else if (col.toLowerCase().equals("magenta")){
                     postit.setBackground(Color.magenta);
-                }else if (col.toLowerCase() == "orange"){
+                }else if (col.toLowerCase().equals("orange")){
                     postit.setBackground(Color.orange);
-                }else if (col.toLowerCase() == "pink"){
+                }else if (col.toLowerCase().equals("pink")){
                     postit.setBackground(Color.pink);
-                }else if (col.toLowerCase() == "red"){
+                }else if (col.toLowerCase().equals("red")){
                     postit.setBackground(Color.red);
-                }else if (col.toLowerCase() == "white"){
+                }else if (col.toLowerCase().equals("white")){
                     postit.setBackground(Color.white);
-                }else if (col.toLowerCase() == "yellow"){
+                }else if (col.toLowerCase().equals("yellow")){
                     postit.setBackground(Color.yellow);
                 }
-                frame.add(BorderLayout.CENTER, postit);
+                board.add(postit);
+                frame.setVisible(true);
                 //postit.setVisible(true);
             }
         });
+        frame.setVisible(true);
     }    
 }
