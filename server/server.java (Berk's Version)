@@ -1,16 +1,42 @@
 
 import java.io.* ;
 import java.net.* ;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
+// import jdk.internal.net.http.ResponseBodyHandlers.FileDownloadBodyHandler;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.color.*;
 public final class server{
+    public static class Note{
+        int x;
+        int y; 
+        int width;
+        int height;
+        String colour;
+        String message;
+        boolean pinned;
+        public Note(int x, int y, int width, int height, String colour,String message, boolean pinned){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.colour = colour;
+            this.message = message;
+            this.pinned = pinned;
+        }
+        
+    }
+
     public static void main(String argv[]) throws Exception {
         //initializing values
         int port = 0;
         int b_width = 0;
         int b_height = 0;
+        ArrayList<Note> board_list = new ArrayList<Note>(); 
         String colour[] = new String[argv.length - 3];
 
         //taking input from client/ error handle
@@ -37,12 +63,7 @@ public final class server{
 
         InetAddress ip;
         ip = InetAddress.getLocalHost();
-        ////////////////////////////////////////////////////////////////////
-        // DataInputStream dis=new DataInputStream(s.getInputStream());  
-        // String  str=(String)dis.readUTF();  
-        // System.out.println("message= "+str);  
-        // ss.close();  
-        /////////////////////////////////////////////////////////////////////
+
         //displaying what we know
         System.out.println("length: " + argv.length);
         System.out.println("Connected");
@@ -56,86 +77,145 @@ public final class server{
             System.out.print(colour[i] + ", ");
             show_colour = show_colour + colour[i] + ", ";
         } 
-        // Sending parameters information to the client
-        // DataInputStream din=new DataInputStream(s.getInputStream());  
-        DataOutputStream dout=new DataOutputStream(s.getOutputStream()); 
-        dout.writeInt(b_width); 
-        dout.writeInt(b_height);
-        // //GUI
-        // //frame
-        // JFrame frame = new JFrame("BBoard");
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frame.setSize(b_width,b_height);
 
-        // // creating panels
-        // JPanel panel = new JPanel();
-        // JPanel panel2 = new JPanel();
-        // JPanel panel3 = new JPanel();
+        //GUI
+        //frame
+        JFrame frame = new JFrame("BBoard");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(b_width,b_height);
 
-        // //labels and text fields
-        // JLabel label = new JLabel("Enter Text:");
-        // JLabel dimlabel = new JLabel("width: " + b_width + " height: " + b_height);
-        // JLabel colourlabel = new JLabel("colour(s): " + show_colour);
-        // JTextField showip = new JTextField("ip: "+ ip + "port number: "+ port);
+        // creating panels
+        JPanel panel = new JPanel();
+        //JPanel panel2 = new JPanel();
+        JPanel panel3 = new JPanel();
+        JPanel board = new JPanel();
+        board.setLayout(null);
 
-        // JTextField tf = new JTextField(20); // accepts upto 20 characters
+        //labels and text fields
+        JLabel label = new JLabel("Enter Text:");
+        JLabel dimlabel = new JLabel("width: " + b_width + " height: " + b_height);
+        JLabel colourlabel = new JLabel("colour(s): " + show_colour);
+        JTextField showip = new JTextField("ip: "+ ip + "port number: "+ port);
 
-        // //buttons
-        // JButton get = new JButton("GET");
-        // JButton post = new JButton("POST");
-        // JButton disconnect = new JButton("Disconnect");
-        // JButton pin = new JButton("PIN");
-        // JButton shake = new JButton("SHAKE");
-        // JButton clear = new JButton("CLEAR");
-        // JButton unpin = new JButton("UNPIN");
-        // //adding buttons to panels
-        // panel.add(label); 
-        // panel.add(tf);
-        // panel.add(get);
-        // panel.add(post);
-        // panel3.add(disconnect);
-        // panel3.add(pin);
-        // panel3.add(unpin);
-        // panel3.add(shake);
-        // panel3.add(clear);
-        // panel2.add(dimlabel);
-        // panel2.add(colourlabel);
-        // panel2.add(showip);
+        JTextField tf = new JTextField(20); // accepts upto 20 characters
 
-        // //for user input
-        // JTextArea ta = new JTextArea();
+        //buttons
+        JButton get = new JButton("GET");
+        JButton post = new JButton("POST");
+        JButton disconnect = new JButton("Disconnect");
+        JButton pin = new JButton("PIN");
+        JButton shake = new JButton("SHAKE");
+        JButton clear = new JButton("CLEAR");
+        JButton unpin = new JButton("UNPIN");
+        //adding buttons to panels
+        panel.add(label); 
+        panel.add(tf);
+        panel.add(get);
+        panel.add(post);
+        panel3.add(disconnect);
+        panel3.add(pin);
+        panel3.add(unpin);
+        panel3.add(shake);
+        panel3.add(clear);
+        panel3.add(dimlabel);
+        panel3.add(colourlabel);
+        panel3.add(showip);
+        //for user input
+        //JTextArea ta = new JTextArea();
 
-        // //positioning panels
-        // frame.getContentPane().add(BorderLayout.CENTER, ta);
-        // frame.getContentPane().add(BorderLayout.SOUTH, panel);
-        // frame.getContentPane().add(BorderLayout.NORTH, panel2);
-        // frame.getContentPane().add(BorderLayout.WEST, panel3);
-        // frame.setVisible(true);
+        //positioning panels
+        //frame.getContentPane().add(BorderLayout.CENTER, ta);
+        frame.getContentPane().add(BorderLayout.SOUTH, panel);
+        //frame.getContentPane().add(BorderLayout.NORTH, panel2);
+        frame.getContentPane().add(BorderLayout.NORTH, panel3);
+        frame.getContentPane().add(BorderLayout.CENTER, board);
         
-        // //adding action to post button
-        // post.addActionListener(new ActionListener() {
+        
+        //adding action to post button
+        post.addActionListener(new ActionListener() {
 
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         String command = tf.getText();
-        //         String cmd[] = command.split(" ");
-        //         int x = Integer.parseInt(cmd[0]);
-        //         int y = Integer.parseInt(cmd[1]);
-        //         int w = Integer.parseInt(cmd[2]);
-        //         int h = Integer.parseInt(cmd[3]);
-        //         String col = cmd[4];
-        //         String msg = "";
-        //         for(int i = 5; i<=cmd.length; i++){
-        //             msg = msg + cmd[i] + " ";
-        //         }
-        //         JLabel message = new JLabel(msg);
-        //         JTextField postit = new JTextField();
-        //         postit.setSize(w,h);
-        //         postit.setLocation(x, y);
-        //         message.setLabelFor(postit);
-        //         //postit.setBackground(Color);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String command = tf.getText();
+                String cmd[] = command.split(" ");
+                System.out.println(cmd[0]);
+                int x = Integer.parseInt(cmd[0]);
+                System.out.println(x);
+                int y = Integer.parseInt(cmd[1]);
+                System.out.println(y);
+                int w = Integer.parseInt(cmd[2]);
+                System.out.println(w);
+                int h = Integer.parseInt(cmd[3]);
+                System.out.println(h);
+                String col = cmd[4];
+                System.out.println(col);
+                String msg = "";
+                for(int i = 5; i<=cmd.length-1; i++){
+                    msg = msg + cmd[i] + " ";
+                }
+                System.out.println(msg);
+                JTextArea postit = new JTextArea();
+                System.out.println("size: "+ postit.getSize());
+                System.out.println("size: "+ postit.getSize());
 
-        //     }
-        // });
+                postit.setText(msg);
+                postit.setBounds(x,y,w,h);
+                System.out.println("7"+col+"7");
+                System.out.println(col.toLowerCase().equals("red"));
+                if (col.toLowerCase().equals("black")){
+                    postit.setBackground(Color.black);
+                }else if (col.toLowerCase().equals("blue")){
+                    postit.setBackground(Color.blue);
+                }else if (col.toLowerCase().equals("cyan")){
+                    postit.setBackground(Color.cyan);
+                }else if (col.toLowerCase().equals("gray")){
+                    postit.setBackground(Color.gray);
+                }else if (col.toLowerCase().equals("green")){
+                    postit.setBackground(Color.green);
+                }else if (col.toLowerCase().equals("magenta")){
+                    postit.setBackground(Color.magenta);
+                }else if (col.toLowerCase().equals("orange")){
+                    postit.setBackground(Color.orange);
+                }else if (col.toLowerCase().equals("pink")){
+                    postit.setBackground(Color.pink);
+                }else if (col.toLowerCase().equals("red")){
+                    postit.setBackground(Color.red);
+                }else if (col.toLowerCase().equals("white")){
+                    postit.setBackground(Color.white);
+                }else if (col.toLowerCase().equals("yellow")){
+                    postit.setBackground(Color.yellow);
+                }
+                board.add(postit);
+                Note note = new Note(x,y,w,h, col, msg, false);
+                board_list.add(note);
+                // // For debugging
+                // for(Note n: board_list){
+                //     System.out.println(n.message);
+                // }
+                // //
+                frame.setVisible(true);
+                //postit.setVisible(true);
+            }
+        });
+        
+        disconnect.addActionListener((new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
+        }));
+        get.addActionListener((new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String command = tf.getText();
+                String cmd[] = command.split("=");
+                // For debugging
+                for(Note n: board_list){
+                    System.out.println(n.message);
+                }
+                //
+            }
+        }));
+        frame.setVisible(true);
     }    
 }
