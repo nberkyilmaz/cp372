@@ -1,19 +1,42 @@
 
 import java.io.* ;
 import java.net.* ;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
-import jdk.internal.net.http.ResponseBodyHandlers.FileDownloadBodyHandler;
+// import jdk.internal.net.http.ResponseBodyHandlers.FileDownloadBodyHandler;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.color.*;
 public final class server{
+    public static class Note{
+        int x;
+        int y; 
+        int width;
+        int height;
+        String colour;
+        String message;
+        boolean pinned;
+        public Note(int x, int y, int width, int height, String colour,String message, boolean pinned){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.colour = colour;
+            this.message = message;
+            this.pinned = pinned;
+        }
+        
+    }
+
     public static void main(String argv[]) throws Exception {
         //initializing values
         int port = 0;
         int b_width = 0;
         int b_height = 0;
+        ArrayList<Note> board_list = new ArrayList<Note>(); 
         String colour[] = new String[argv.length - 3];
 
         //taking input from client/ error handle
@@ -163,10 +186,36 @@ public final class server{
                     postit.setBackground(Color.yellow);
                 }
                 board.add(postit);
+                Note note = new Note(x,y,w,h, col, msg, false);
+                board_list.add(note);
+                // // For debugging
+                // for(Note n: board_list){
+                //     System.out.println(n.message);
+                // }
+                // //
                 frame.setVisible(true);
                 //postit.setVisible(true);
             }
         });
+        
+        disconnect.addActionListener((new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
+        }));
+        get.addActionListener((new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String command = tf.getText();
+                String cmd[] = command.split("=");
+                // For debugging
+                for(Note n: board_list){
+                    System.out.println(n.message);
+                }
+                //
+            }
+        }));
         frame.setVisible(true);
     }    
 }
